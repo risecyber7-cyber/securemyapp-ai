@@ -1,0 +1,4 @@
+- id: missing-csp
+  category: browser-hardening
+  severity: medium
+  title: Missing Content-Security-Policy header
