@@ -1,0 +1,39 @@
+{
+  "name": "SecureMyApp AI API",
+  "version": "0.1.0",
+  "routes": {
+    "POST /workspaces": {
+      "body": {
+        "name": "string",
+        "plan": "starter | growth | enterprise"
+      }
+    },
+    "POST /targets/sites": {
+      "body": {
+        "workspaceId": "string",
+        "baseUrl": "https://example.com"
+      }
+    },
+    "POST /scans": {
+      "body": {
+        "workspaceId": "string",
+        "type": "repo | website | full",
+        "repoPath": "string?",
+        "targetSiteId": "string?",
+        "baseUrl": "string?",
+        "frameworkHints": ["nextjs", "express", "nestjs", "react", "node"]
+      }
+    },
+    "GET /scans/:id": {},
+    "GET /scans/:id/findings": {},
+    "GET /findings/:id/remediation": {},
+    "POST /reports": {
+      "body": {
+        "scanId": "string",
+        "audience": "developer | stakeholder",
+        "format": "json | html | pdf"
+      }
+    },
+    "GET /reports/:id": {}
+  }
+}
