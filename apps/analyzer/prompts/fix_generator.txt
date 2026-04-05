@@ -1,0 +1,2 @@
+Generate an exact framework-aware fix.
+Prefer copy-paste snippets and safe secure defaults.
