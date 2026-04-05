@@ -1,0 +1,85 @@
+export const repoRules = [
+  {
+    id: "js_eval_usage",
+    category: "injection",
+    severity: "high",
+    confidence: "high",
+    title: "Potential arbitrary code execution via eval",
+    match: /\beval\s*\(/,
+    explanation:
+      "Direct use of eval can execute attacker-controlled input and bypass application safeguards.",
+    remediationKey: "replace-eval",
+    cweIds: ["CWE-95"],
+    owaspTags: ["A03:2021-Injection"],
+  },
+  {
+    id: "weak_cookie_config",
+    category: "session-management",
+    severity: "medium",
+    confidence: "medium",
+    title: "Cookie configuration appears to miss secure flags",
+    match: /res\.cookie\s*\(/,
+    guard: (content) => !/httpOnly\s*:\s*true/i.test(content) || !/secure\s*:\s*true/i.test(content),
+    explanation:
+      "Session cookies should set HttpOnly and Secure flags to reduce theft and script access risks.",
+    remediationKey: "harden-cookie",
+    cweIds: ["CWE-614"],
+    owaspTags: ["A07:2021-Identification and Authentication Failures"],
+  },
+  {
+    id: "hardcoded_secret",
+    category: "secret-management",
+    severity: "critical",
+    confidence: "medium",
+    title: "Potential hardcoded secret in source",
+    match: /(api[-_ ]?key|secret|token|password)\s*[:=]\s*["'][^"']{8,}["']/i,
+    explanation:
+      "Hardcoded credentials raise immediate credential leakage and environment compromise risk.",
+    remediationKey: "extract-secret",
+    cweIds: ["CWE-798"],
+    owaspTags: ["A02:2021-Cryptographic Failures"],
+  },
+  {
+    id: "child_process_exec",
+    category: "command-injection",
+    severity: "high",
+    confidence: "medium",
+    title: "Command execution primitive detected",
+    match: /\b(exec|spawn)\s*\(/,
+    explanation:
+      "Shell execution paths need strict input control and safer APIs to avoid command injection.",
+    remediationKey: "sanitize-command-exec",
+    cweIds: ["CWE-78"],
+    owaspTags: ["A03:2021-Injection"],
+  },
+];
+
+export const websiteRules = [
+  {
+    id: "missing-csp",
+    category: "browser-hardening",
+    severity: "medium",
+    title: "Missing Content-Security-Policy header",
+    remediationKey: "add-csp",
+    cweIds: ["CWE-693"],
+    owaspTags: ["A05:2021-Security Misconfiguration"],
+  },
+  {
+    id: "missing-hsts",
+    category: "transport-security",
+    severity: "medium",
+    title: "Missing Strict-Transport-Security header",
+    remediationKey: "add-hsts",
+    cweIds: ["CWE-319"],
+    owaspTags: ["A02:2021-Cryptographic Failures"],
+  },
+  {
+    id: "insecure-cookie",
+    category: "session-management",
+    severity: "medium",
+    title: "Set-Cookie header appears without Secure/HttpOnly attributes",
+    remediationKey: "secure-cookie-header",
+    cweIds: ["CWE-614"],
+    owaspTags: ["A07:2021-Identification and Authentication Failures"],
+  },
+];
