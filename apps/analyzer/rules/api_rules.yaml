@@ -1,0 +1,4 @@
+- id: api-route-review
+  category: api-route-review
+  severity: medium
+  title: API route review recommended
