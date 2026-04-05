@@ -1,0 +1,11 @@
+.next
+node_modules
+__pycache__
+.pytest_cache
+.venv
+dist
+build
+coverage
+backend/__pycache__
+backend/app/__pycache__
+backend/alembic/__pycache__
