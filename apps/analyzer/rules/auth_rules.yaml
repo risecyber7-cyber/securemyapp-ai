@@ -1,0 +1,4 @@
+- id: auth-flow-review
+  category: auth-flow-review
+  severity: low
+  title: Authentication flow review recommended
