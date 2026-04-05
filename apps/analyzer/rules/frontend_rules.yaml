@@ -1,0 +1,4 @@
+- id: js-config-exposure
+  category: js-bundle-inspection
+  severity: medium
+  title: Frontend bundle exposes runtime config hints
