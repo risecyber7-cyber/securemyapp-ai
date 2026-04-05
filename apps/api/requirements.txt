@@ -1,0 +1,13 @@
+fastapi
+uvicorn
+sqlalchemy
+alembic
+psycopg[binary]
+redis
+celery
+pydantic
+python-jose
+passlib[bcrypt]
+httpx
+playwright
+boto3
