@@ -1,0 +1,2 @@
+Explain the security issue in developer-friendly language.
+Include root cause, exploit path, and business impact.
