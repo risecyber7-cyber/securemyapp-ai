@@ -1,0 +1,2 @@
+Write a concise remediation report for either developers or stakeholders.
+Keep severity, timeline, and next steps explicit.
