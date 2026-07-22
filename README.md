@@ -1,138 +1,104 @@
-# SecureMyApp AI
+<div align="center">
+  <h1>🛡️ SecureMyApp AI</h1>
+  <p><strong>Developer-first security detection and remediation foundation.</strong></p>
+</div>
 
-SecureMyApp AI is a developer-first security detection and remediation foundation. This initial implementation provides:
+<br />
 
-- a Next.js presentation layer
-- a FastAPI application layer scaffold
-- in-memory workspace, scan, finding, remediation, and report storage
-- local repo scanning for common JS/TS security smells
-- safe website header and cookie checks
-- framework-aware remediation packages with diff-style patch suggestions
+## 📖 Overview
 
-## Run
+SecureMyApp AI is a comprehensive security tooling layer designed for developers. It bridges the gap between raw security scanning and actionable, developer-friendly remediation by combining localized repository checks, website analysis, and framework-aware patch suggestions. 
 
-```bash
-node src/server.js
-```
+## ✨ Key Features
 
-Frontend:
+- **Full-Stack Security Layer:** Next.js presentation layer combined with a robust FastAPI engine.
+- **In-Memory Operations:** Fast workspace, scan, and remediation tracking.
+- **Repository Scanning:** Local repo scanning targeting common JavaScript and TypeScript security smells.
+- **Passive Site Checks:** Non-invasive header and cookie security validation.
+- **Framework-Aware:** Tailored patch suggestions for frameworks like Next.js in a readable diff format.
 
-```bash
-npm.cmd run dev
-```
+## 🛠️ Technology Stack
 
-FastAPI backend:
+- **Frontend:** Next.js, React
+- **Backend:** FastAPI, Python, Celery
+- **Containerization:** Docker & Docker Compose
+- **Ecosystem:** JavaScript / TypeScript
 
-```bash
-uvicorn apps.api.app.main:app --reload
-```
+## 🚀 Quick Start
 
-API only:
+You can run SecureMyApp AI entirely locally. Choose your preferred startup method:
 
-```bash
-npm.cmd run dev:api
-```
-
-Local full stack:
-
+### Method 1: Local Full Stack (Recommended)
+Launch the entire ecosystem seamlessly using Docker.
 ```bash
 docker compose up --build
 ```
 
-## Current API
+### Method 2: Manual Start
+If you prefer running services independently:
 
-- `GET /workspaces`
-- `POST /workspaces`
-- `GET /workspaces/:id/sites`
-- `GET /workspaces/:id/scans`
-- `POST /api/v1/auth/register`
-- `POST /api/v1/auth/login`
-- `GET /api/v1/workspaces`
-- `POST /api/v1/targets/sites`
-- `POST /api/v1/scans`
-- `GET /api/v1/scans/:id`
-- `GET /api/v1/scans/:id/findings`
-- `GET /api/v1/findings/:id/remediation`
-- `POST /api/v1/reports`
-- `POST /targets/sites`
-- `POST /scans`
-- `GET /scans/:id`
-- `GET /scans/:id/findings`
-- `GET /findings/:id/remediation`
-- `POST /reports`
-- `GET /reports/:id`
-- `GET /health`
+**1. Start the FastAPI Backend:**
+```bash
+uvicorn apps.api.app.main:app --reload
+```
+*(Alternatively, use `node src/server.js` or `npm run dev:api` depending on the legacy entry points you are testing).*
 
-## Repository Shape
-
-The backend is now arranged to follow the requested product structure:
-
-- `apps/api/app` for the FastAPI gateway, services, and Celery task entrypoints
-- `apps/analyzer` for detectors, rules, prompts, normalizers, and engine helpers
-- `apps/web` reserved for future migration of the active Next.js app
-- `packages/*` reserved for shared UI, config, and types
-
-The existing `backend/` package is still present as a compatibility layer while the new structure is introduced safely.
-
-## Example Requests
-
-Create a workspace:
-
-```json
-POST /workspaces
-{
-  "name": "Acme Security"
-}
+**2. Start the Frontend:**
+```bash
+npm run dev
 ```
 
-Register a website target:
+## 🏗️ Architecture & Project Structure
 
-```json
-POST /targets/sites
-{
-  "workspaceId": "ws_123",
-  "baseUrl": "https://example.com"
-}
-```
+The platform is designed with a scalable monorepo-style structure:
 
-Start a repo and website scan:
+- `apps/api/app/` — FastAPI gateway, core services, and Celery task entrypoints.
+- `apps/analyzer/` — Detectors, analysis rules, LLM prompts, normalizers, and the engine.
+- `apps/web/` — Next.js frontend application.
+- `packages/*/` — Shared UI components, configurations, and TypeScript types.
+- `backend/` — Legacy compatibility layer during architectural transition.
 
+## 📡 Core API Capabilities
+
+Here are some of the primary endpoints available:
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/v1/workspaces` | `POST` / `GET` | Manage security workspaces |
+| `/api/v1/targets/sites` | `POST` | Register a website for scanning |
+| `/api/v1/scans` | `POST` | Trigger a repository or site scan |
+| `/api/v1/scans/:id/findings` | `GET` | Retrieve scan results and vulnerabilities |
+| `/api/v1/reports` | `POST` | Generate stakeholder reports (JSON) |
+
+**Example: Trigger a Scan**
 ```json
 POST /scans
 {
   "workspaceId": "ws_123",
   "type": "full",
-  "repoPath": "C:\\\\path\\\\to\\\\repo",
+  "repoPath": "C:\\path\\to\\repo",
   "targetSiteId": "site_123",
   "frameworkHints": ["nextjs"]
 }
 ```
 
-Create a stakeholder report:
+## 🚧 Current Limitations & Roadmap
 
-```json
-POST /reports
-{
-  "scanId": "scan_123",
-  "audience": "stakeholder",
-  "format": "json"
-}
-```
+As this is a foundational release, several limits exist intentionally for rapid iteration:
+- Storage currently utilizes in-memory structures (PostgreSQL implementation planned).
+- Direct Git provider integrations (GitHub/GitLab PR drafting) are in development.
+- Patch suggestions are template-driven and require manual human review before applying.
+- Docker environment configurations are experimental and undergoing validation.
 
-## Known Limits
+### Suggested Next Steps
+- [ ] Migrate in-memory data store to PostgreSQL + Object Storage.
+- [ ] Implement queue-backed workers for extensive, long-running codebase scans.
+- [ ] Integrate GitHub/GitLab apps for automated PR creation.
+- [ ] Expand the detection rule corpus with benchmarked accuracy tests.
 
-- storage is in-memory only
-- git provider integrations are not wired yet
-- website checks are intentionally passive and non-invasive
-- patch suggestions are template-driven and require human review
-- frontend currently uses fallback mock data when the API is unavailable
-- FastAPI application layer currently bootstraps demo data on startup
-- Alembic scaffold exists, but migrations beyond the initial seed are not authored yet
-- Dockerfiles and Compose are present, but not validated in this environment
+<br />
 
-## Suggested Next Steps
-
-1. Replace in-memory store with PostgreSQL and object storage.
-2. Add queue-backed workers for long-running scans.
-3. Add GitHub/GitLab app integrations and PR draft creation.
-4. Expand the rule corpus and add benchmarked accuracy checks.
+---
+<div align="center">
+  <i>Built for developers who care about security.</i>
+</div>
